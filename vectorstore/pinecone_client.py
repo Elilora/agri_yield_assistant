@@ -1,3 +1,4 @@
+import time
 from util.config import pinecone_index, embedding_dimension PINECONE_API_KEY 
 from pinecone import Pinecone, ServerlessSpec
 

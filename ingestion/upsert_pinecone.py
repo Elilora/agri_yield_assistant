@@ -1,11 +1,15 @@
 
 import time
-from ingestion.csv_to_docs import load_csv_and_convert
+from util.logger import get_logger
 from embeddings.embedder import embed_text
+from ingestion.csv_to_docs import load_csv_and_convert
 from vectorstore.pinecone_client import initialise_pinecone, upsert_data_to_pinecone
 
+# logger
+logger = get_logger(__name__)
+
 def ingest(csv_path):
-    print("Loading CSV...")
+    logger.info("Loading CSV...")
     docs = load_csv_and_convert(csv_path)
 
     pinecone_index = initialise_pinecone()
@@ -15,15 +19,16 @@ def ingest(csv_path):
     try:
         # Process each row in the dataset
         for item in docs:
-            print(f"Embedding {item['id']}...")
+            logger.info(f"Embedding {item['id']}...")
             embedding = embed_text(item["text"])
 
             # Check if document already exists in Pinecone
             existing = pinecone_index.fetch(ids=[item["id"]])
 
+            # Skip duplicate
             if item["id"] in existing.vectors:
-                print(f"Duplicate document skipped: {item['id']}")
-                continue  # Skip duplicate
+                logger.info(f"Duplicate document skipped: {item['id']}")
+                continue  
 
             # Create document for Pinecone
             vector = {
@@ -32,14 +37,16 @@ def ingest(csv_path):
                 "metadata": item["metadata"]}
 
             batch.append(vector)
-            time.sleep(1.0) # Rate limit handling
 
-        print("Uploading to Pinecone...")
+            # Rate limit handling
+            time.sleep(1.0) 
+
+        logger.info("Uploading to Pinecone...")
         upsert_data_to_pinecone(batch)
 
-        print("Ingestion complete!")
+        logger.info("Ingestion complete!")
     except Exception as e:
-        print(f"Error: {e}")
+        logger.error(f"Error: {e}")
 
 
 if __name__ == "__main__":
