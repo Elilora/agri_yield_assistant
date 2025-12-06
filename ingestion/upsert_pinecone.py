@@ -1,6 +1,6 @@
 
 import time
-from util.logger import get_logger
+from utils.logger import get_logger
 from embeddings.embedder import embed_text
 from ingestion.csv_to_docs import load_csv_and_convert
 from vectorstore.pinecone_client import initialise_pinecone, upsert_data_to_pinecone

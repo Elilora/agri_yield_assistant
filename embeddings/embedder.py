@@ -1,5 +1,5 @@
 import cohere
-from util.config import embedding_model, COHERE_API_KEY
+from utils.config import embedding_model, COHERE_API_KEY
 
 
 # cohere client initialised
