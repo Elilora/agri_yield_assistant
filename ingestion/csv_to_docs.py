@@ -15,6 +15,7 @@ def row_to_text(row):
 
 
 def row_to_metadata(row):
+    
     """Clean metadata for Pinecone."""
     return {
         "region": row["Region"],
