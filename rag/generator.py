@@ -1,13 +1,11 @@
-import os
 import cohere
-from dotenv import load_dotenv
-
-load_dotenv(dotenv_path=".env.local")
+from utils.config import COHERE_API_KEY
+from rag.prompts.code_prompts import generation_prompt
 
 # Initialize Cohere client
-cohere_client = cohere.Client(api_key=os.getenv("COHERE_API_KEY"))
+cohere_client = cohere.Client(api_key=COHERE_API_KEY)
 
-def generate_answer(query: str, context: str) -> str:
+def generate_answer(query, context):
     """
     Generate an answer to the query using the provided context.
     
@@ -19,22 +17,29 @@ def generate_answer(query: str, context: str) -> str:
         str: The generated answer.
     """
     
-    prompt = f"""You are an agricultural assistant. Use the following context to answer the user's question.
-    If the answer is not in the context, say you don't know.
-    
-    Context:
-    {context}
-    
-    Question: 
-    {query}
-    
-    Answer:"""
-    
-    response = cohere_client.generate(
-        model='command',
-        prompt=prompt,
-        max_tokens=300,
-        temperature=0.7,
-    )
+    prompt=generation_prompt(context, query)
+
+    response = cohere_client.generate(model='command',prompt=prompt,max_tokens=300,temperature=0.7,)
     
     return response.generations[0].text.strip()
+
+
+
+#With Langchain
+  """from langchain_cohere import ChatCohere
+from langchain_core.prompts import ChatPromptTemplate
+
+llm = ChatCohere()
+
+prompt = ChatPromptTemplate.from_template(\"""
+You are an agricultural analytics assistant.
+Answer using ONLY the provided context.
+
+Question: {question}
+
+Context:
+{context}
+
+If context is insufficient, say "I don't have enough information."
+\""")
+"""
