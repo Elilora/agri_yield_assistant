@@ -1,4 +1,5 @@
-from retriever.retriever import PineconeRetriever
+
+from rag.retriever import PineconeRetriever
 
 def retrieve_crop_info(query: str) -> str:
     """
