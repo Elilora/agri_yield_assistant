@@ -1,4 +1,4 @@
-import sys
+
 from agents.tools import retrieve_crop_info
 from rag.generator import generate_answer
 
