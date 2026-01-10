@@ -39,10 +39,8 @@ The application integrates traditional machine learning with modern LLM-powered 
     python -m ingestion.upsert_pinecone
 ```
 This will:
-Read CSV
-Convert rows to documents
-Embed text
-Store vectors in Pinecone
+Read CSV,Convert rows to documents,Embed text and Store vectors in Pinecone
+
 5. Run the RAG Agent - Ask questions interactively via CLI.
 ```bash
     python main.py
