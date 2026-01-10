@@ -1,2 +1,6 @@
 .env.local
 .env.example
+# Ignore Python virtual environment
+.venv/
+__pycache__/
+*.pyc
