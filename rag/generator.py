@@ -26,7 +26,7 @@ def generate_answer(query, context):
 
 
 #With Langchain
-  """from langchain_cohere import ChatCohere
+"""from langchain_cohere import ChatCohere
 from langchain_core.prompts import ChatPromptTemplate
 
 llm = ChatCohere()

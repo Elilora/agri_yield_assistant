@@ -1,4 +1,4 @@
-from rag.pipeline import RAGAgent
+from rag.rag_pipeline import RAGAgent
 
 rag_agent = RAGAgent()
 
