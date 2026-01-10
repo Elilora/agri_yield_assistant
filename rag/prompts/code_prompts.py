@@ -1,6 +1,8 @@
 
 def generation_prompt(context, query):
-    generation_prompt = f"""You are an agricultural assistant. Use the following context to answer the user's question.
+    generation_prompt = [{
+        "role": "user",
+        "content": f"""You are an agricultural assistant. Use the following context to answer the user's question.
                     If context lacks the answer, say: "I don't have enough information in the documents."
     
                     Context:
@@ -9,5 +11,6 @@ def generation_prompt(context, query):
                     Question: 
                     {query}
                         
-                    Answer:"""
+                    Answer:"""}]
+
     return generation_prompt

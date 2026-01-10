@@ -3,9 +3,9 @@ from utils.config import COHERE_API_KEY
 from rag.prompts.code_prompts import generation_prompt
 
 # Initialize Cohere client
-cohere_client = cohere.Client(api_key=COHERE_API_KEY)
+cohere_client = cohere.ClientV2(api_key=COHERE_API_KEY)
 
-def generate_answer(query, context):
+def generate_answer(context,query):
     """
     Generate an answer to the query using the provided context.
     
@@ -19,9 +19,11 @@ def generate_answer(query, context):
     
     prompt=generation_prompt(context, query)
 
-    response = cohere_client.generate(model='command',prompt=prompt,max_tokens=300,temperature=0.7,)
+    response = cohere_client.chat(model='command-a-03-2025',messages=prompt,max_tokens=300,temperature=0.7,)
+
     
-    return response.generations[0].text.strip()
+    return response.message.content[0].text.strip()
+
 
 
 

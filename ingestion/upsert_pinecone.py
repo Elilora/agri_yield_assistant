@@ -13,12 +13,13 @@ def ingest(csv_path):
     docs = load_csv_and_convert(csv_path)
 
     pinecone_index = initialise_pinecone()
-
+    
     batch = []
+    Batch_size = 10
 
-    try:
-        # Process each row in the dataset
-        for item in docs:
+
+    for item in docs:
+        try:
             logger.info(f"Embedding {item['id']}...")
             embedding = embed_text(item["text"])
 
@@ -38,15 +39,22 @@ def ingest(csv_path):
 
             batch.append(vector)
 
-            # Rate limit handling
-            time.sleep(1.0) 
+            # Upsert every N vectors
+            if len(batch) >= Batch_size:
+                logger.info(f"Upserting batch of {len(batch)} vectors...")
+                upsert_data_to_pinecone(batch)
+                batch.clear()
 
-        logger.info("Uploading to Pinecone...")
+            time.sleep(2.0)  
+
+        except Exception as e:
+            logger.error(f"Skipping {item['id']} due to error: {e}")
+            continue
+
+    # Final flush
+    if batch:
+        logger.info(f"Final upsert of {len(batch)} vectors...")
         upsert_data_to_pinecone(batch)
-
-        logger.info("Ingestion complete!")
-    except Exception as e:
-        logger.error(f"Error: {e}")
 
 
 if __name__ == "__main__":

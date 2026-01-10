@@ -1,6 +1,9 @@
 import time
 from utils.config import pinecone_index, embedding_dimension,  PINECONE_API_KEY 
 from pinecone import Pinecone, ServerlessSpec
+from utils.logger import get_logger
+
+logger = get_logger(__name__)   
 
 
 def initialise_pinecone():
@@ -12,7 +15,7 @@ def initialise_pinecone():
     pinecone = Pinecone(api_key=PINECONE_API_KEY)
                                 
    
-    # FIX HERE: list of index names extracted from objects
+    #list of index names 
     existing_indexes = [idx["name"] for idx in   pinecone.list_indexes()]
 
     # create index if it doesn't exist, dim is 768 for multilingual-22-12  
@@ -21,20 +24,17 @@ def initialise_pinecone():
         spec=ServerlessSpec(cloud="aws", region="us-east-1"))
         # Wait for index creation to propagate
         time.sleep(5)
-    else:
-        print(f"Index '{pinecone_index}' already exists")
+        
     return pinecone.Index(pinecone_index)
 
 
-def upsert_data_to_pinecone(vectors):
+def upsert_data_to_pinecone(vectors, pinecone_index):
     """Upsert data to Pinecone index"""
-
-    # pinecone index initialised
-    pinecone_index = initialise_pinecone()
     
     if vectors:
         # upsert data to pinecone index
         pinecone_index.upsert(vectors=vectors)
     else:
-        print("No data to upsert")
+        logger.info("No data to upsert")
            
+    

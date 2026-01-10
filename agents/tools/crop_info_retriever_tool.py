@@ -1,5 +1,5 @@
 
-from rag.retriever import PineconeRetriever
+from rag.retriever import get_relevant_docs
 
 def retrieve_crop_info(query: str) -> str:
     """
@@ -11,14 +11,13 @@ def retrieve_crop_info(query: str) -> str:
     Returns:
         str: A formatted string containing relevant document snippets.
     """
-    retriever = PineconeRetriever()
-    docs = retriever.get_relevant_docs(query)
+    retriever = get_relevant_docs(query)
     
-    if not docs:
+    if not retriever:
         return "No relevant information found."
     
     context = ""
-    for i, doc in enumerate(docs):
+    for i, doc in enumerate(retriever):
         context += f"Document {i+1}:\n"
         # Assuming the metadata contains the text content, or we need to fetch it.
         # Based on ingestion/upsert_pinecone.py, metadata has 'metadata' which might contain the text?

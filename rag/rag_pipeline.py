@@ -12,15 +12,15 @@ class RAGAgent:
         """Run the full RAG pipeline"""
         # Retrieve docs
         docs = get_relevant_docs(query, top_k=self.top_k)
-        logger.info(f"Retrieved {len(docs)} documents")
+        #logger.info(f"Retrieved {len(docs)} documents")
 
         # Merge context
         context = "\n\n".join([d["text"] for d in docs])
-        logger.info(f"Context: {context}")
+        #logger.info(f"Context: {context}")
 
         # Generate answer
         answer = generate_answer(query, context)
-        logger.info(f"Answer: {answer}")
+        #logger.info(f"Answer: {answer}")
 
         return {"query": query, "answer": answer, "sources": docs}
     
