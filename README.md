@@ -7,7 +7,7 @@ The application integrates traditional machine learning with modern LLM-powered 
 1. Machine Learning for Crop Yield Prediction - Trains predictive models using historical agricultural and environmental data.
 2. Vector Search with Pinecone - Stores embedded agricultural records for efficient semantic retrieval.
 3. LLM-Powered RAG Agent - Answers user questions by retrieving relevant data from the vector store and generating grounded responses.
-4. 📊 Exploratory Data Analysis (EDA) (Planned) - Analysis of agricultural datasets to understand data distributions correlations, seasonal patterns, and key factors influencing crop yield.
+4. Exploratory Data Analysis (EDA) (Planned) - Analysis of agricultural datasets to understand data distributions correlations, seasonal patterns, and key factors influencing crop yield.
 4. Web Application(Planned)- Interactive interface for yield predictions and AI-powered agricultural insights.
 
 
