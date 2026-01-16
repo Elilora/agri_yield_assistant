@@ -28,13 +28,13 @@ def initialise_pinecone():
     return pinecone.Index(pinecone_index)
 
 
-def upsert_data_to_pinecone(vectors, pinecone_index):
+def upsert_data_to_pinecone(pinecone_index, vectors):
     """Upsert data to Pinecone index"""
     
     if vectors:
         # upsert data to pinecone index
         pinecone_index.upsert(vectors=vectors)
+        logger.info(f"Upserted {len(vectors)} vectors")
     else:
         logger.info("No data to upsert")
            
-    
