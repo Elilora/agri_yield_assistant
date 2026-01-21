@@ -20,7 +20,7 @@ def get_relevant_docs(query, top_k=5):
         # Extract relevant information
         retrieved_docs = []
         for match in results['matches']:
-            docs.append({
+            retrieved_docs.append({
                 "id": match['id'],
                 "score": match['score'],
                 "text": match['metadata'].get("text"),

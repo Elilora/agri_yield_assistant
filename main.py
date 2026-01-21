@@ -17,7 +17,7 @@ def main():
         try:
             result = agent.retrieve_and_generate(query)
             print(f"\nAnswer:\n{result['answer']}")
-            # Optional: show sources
+            # show sources
             for doc in result['sources']:
                print(f"- {doc['id']}: {doc['text'][:100]}...")
         except Exception as e:
